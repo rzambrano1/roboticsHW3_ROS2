@@ -1,0 +1,101 @@
+source /mnt/c/Users/rzamb/Documents/Desktop/UMD/642_Robotics/HW/HW3/ros2_ws/install/setup.bash
+
+Check the topics provided by Gazebo 
+
+gz topic -l
+
+Gazebo Ignition Worlds Location
+
+/usr/share/ignition/ignition-gazebo6/worlds
+
+Remaping keyboar_teleop
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/demo/cmd_demo
+
+***** LIDAR *****
+
+ros2 topic info /scan
+
+# To see output of /scan
+ros2 topic echo /scan
+
+
+# To see ouput linear and angular mesages sent from keyboard
+ros2 topic echo /demo/cmd_demo
+
+
+### ros2 topic list ###
+
+/clock
+/demo/cmd_demo
+/demo/odom_demo
+/parameter_events
+/rosout
+/scan
+/tf
+
+### ros2 topic info /demo/cmd_demo ###
+
+Type: geometry_msgs/msg/Twist
+Publisher count: 1		# /teleop_twist_keyboard
+Subscription count: 1		# /demo/diff_drive
+
+### ros2 topic info /scan ###
+
+Type: sensor_msgs/msg/LaserScan # Implies: from sensor_msgs.msg import LaserScan
+Publisher count: 1		# /scan
+Subscription count: 0
+
+### ros2 interface show geometry_msgs/msg/Twist ###
+
+# This expresses velocity in free space broken into its linear and angular parts.
+
+Vector3  linear
+        float64 x
+        float64 y
+        float64 z
+Vector3  angular
+        float64 x
+        float64 y
+        float64 z
+
+### ros2 interface show sensor_msgs/msg/LaserScan ###
+
+# Single scan from a planar laser range-finder
+#
+# If you have another ranging device with different behavior (e.g. a sonar
+# array), please find or create a different message, since applications
+# will make fairly laser-specific assumptions about this data
+
+std_msgs/Header header # timestamp in the header is the acquisition time of
+        builtin_interfaces/Time stamp
+                int32 sec
+                uint32 nanosec
+        string frame_id
+                             # the first ray in the scan.
+                             #
+                             # in frame frame_id, angles are measured around
+                             # the positive Z axis (counterclockwise, if Z is up)
+                             # with zero angle being forward along the x axis
+
+float32 angle_min            # start angle of the scan [rad]
+float32 angle_max            # end angle of the scan [rad]
+float32 angle_increment      # angular distance between measurements [rad]
+
+float32 time_increment       # time between measurements [seconds] - if your scanner
+                             # is moving, this will be used in interpolating position
+                             # of 3d points
+float32 scan_time            # time between scans [seconds]
+
+float32 range_min            # minimum range value [m]
+float32 range_max            # maximum range value [m]
+
+float32[] ranges             # range data [m]
+                             # (Note: values < range_min or > range_max should be discarded)
+float32[] intensities        # intensity data [device-specific units].  If your
+                             # device does not provide intensities, please leave
+                             # the array empty.
+
+
+
+
